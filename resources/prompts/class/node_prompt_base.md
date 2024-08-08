@@ -9,4 +9,3 @@ You are in the following situation:
 
 You should do the following task:
 <_task>
-

@@ -19,7 +19,6 @@ class Phase(TypedDict):
 class Phases(TypedDict):
     phases: List[Phase]
 
-
 import os,json
 default_json_path = f"{os.getcwd()}/phases.json"
 

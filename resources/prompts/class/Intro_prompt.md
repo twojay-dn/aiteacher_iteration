@@ -1,5 +1,4 @@
-{
-  "situation_name": "<_situation_name>",
-  "situation_description": "<_situation_description>",
-  "task": "<_task>"
-}
+수업에서 아이들에게 반갑게 인사를 하고, 수업에 대해 간단하게 소개해주세요. 당신이 진행할 수업은 다음과 같습니다.:
+
+제목 : <수업 제목>
+요약 : <수업 요약>
