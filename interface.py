@@ -3,6 +3,8 @@ from PIL import Image
 from openai import OpenAI
 from graph import PhaseNode, Checkpoint
 
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+
 def init_state():
     st.session_state["phase"] = "main"
     if "uploaded_image" not in st.session_state:
@@ -15,7 +17,7 @@ def chat_history_render():
     st.chat_message(role).write(message)
 
 def chat_input():
-    client = OpenAI()
+
     if prompt := st.chat_input("메시지를 입력하세요"):
         st.session_state["chat_history"].append(("user", prompt))
         messages = [{"role": m[0], "content": m[1]} for m in st.session_state["chat_history"]]
