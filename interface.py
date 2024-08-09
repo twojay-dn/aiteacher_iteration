@@ -1,7 +1,7 @@
 import streamlit as st
 from PIL import Image
 from openai import OpenAI
-from graph import PhaseNode
+from phases import PhaseNode
 from initialize import parse_json_to_graph
 
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
