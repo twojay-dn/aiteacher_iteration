@@ -1,0 +1,22 @@
+{
+  "class" : {
+    "title" : "사물의 의성어, 자신의 감정을 의성어로 표현하기",
+    "summary" : "이미지로 보여지는 사물에 어울리는 의성어를 찾아보고, 자신의 감정을 의성어로 표현하는 수업입니다."
+  },
+  "phases": [
+    {
+      "name": "intro",
+      "description" : "Introduce yourself to the student",
+      "persona" : {
+        "position": "a professional elementary school teacher", 
+        "place": "a classroom",
+        "event": "during class"
+      },
+      "situation": {
+        "name": "수업 시작",
+        "description": "수업을 시작합니다."
+      },
+      "task_prompt": "introduce.md"
+    }
+  ]
+}

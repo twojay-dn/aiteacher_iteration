@@ -65,26 +65,74 @@ class LLMPhaseNode(PhaseNode):
     super().__init__(name, description, checkpoint)
     self.persona_info = persona_info
     self.situation = situation
-    self.prompt = prompt
-    assert self.prompt is not None, "prompt is required"
+    self._prompt = prompt
     
-    
+  def __str__(self):
+    return f"{self.name} - {self.description}"
+  
+  def _current_checkpoint(self):
+    return self.checkpoint
+  
+  def _current_work(self):
+    return self.work
+  
+  @property
+  def prompt(self):
+    return self._prompt
+  
+  @prompt.setter
+  def prompt(self, value: str):
+    self._prompt = value
+
 import os
 from utils import read_json
+import json
 default_json_path = f"{os.getcwd()}/phases.json"
 
-def parse_json_to_graph(json_path : str = None) -> Phases:
-  if json_path is None:
-    json_path = default_json_path
-  return process_phases(read_json(json_path))
+def parse_json_to_graph(json_data : dict = None) -> Phases:
+  if json_data is None:
+    return None
+  data = json.loads(json_data)
+  return process_phases(data)
 
 def process_phases(phases: Phases) -> None:
   parsed_phases : List[PhaseNode] = []
   for phase in phases['phases']:
-    parsed_phases.append(process_single_phase(phase))
+    if result := process_single_phase(phase):
+      parsed_phases.append(result)
+    else:
+      return []
   return parsed_phases
 
+import streamlit as st
+
 def process_single_phase(phase: Phase) -> None:
-  print(f"단계 이름: {phase['name']}")
-  print(f"설명: {phase['description']}")
-  print(f"페르소나 위치: {phase['persona']['position']}")
+  prompt = st.session_state["file_uploader"].read_file(phase['task_prompt'])
+  if prompt is None:
+    return
+  phase_node = LLMPhaseNode(
+    name = phase['name'],
+    description = phase['description'],
+    persona_info = phase['persona'],
+    situation = phase['situation'],
+  )
+  prompt = load_prompt(phase_node, prompt)
+  phase_node.prompt = prompt
+  return phase_node
+
+@st.cache_data
+def base_prompt():
+  path = f"{os.getcwd()}/resources/prompts/node_prompt_base.md"
+  with open(path, "r") as file:
+    return file.read()
+
+def load_prompt(parsed_phase : PhaseNode, prompt_text : str):
+  base = base_prompt()
+  prompt = base.replace("<_persona_position>", parsed_phase.name)
+  prompt = prompt.replace("<_persona_place>", "교실")
+  prompt = prompt.replace("<_persona_event>", "수업")
+  task_prompt = prompt_text
+  task_prompt = task_prompt.replace("<_class_title>", parsed_phase.description)
+  task_prompt = task_prompt.replace("<_class_summary>", parsed_phase.description)
+  prompt = prompt.replace("<_task>", task_prompt)
+  return prompt
