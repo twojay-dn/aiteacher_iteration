@@ -1,6 +1,7 @@
 from openai import OpenAI
 from typing import List
 from pydantic import BaseModel
+import streamlit as st
 
 config = {
     "model": "gpt-3.5-turbo",
@@ -26,10 +27,7 @@ class Messages:
     
   def compose_system_message(self, prompt : str):
     return [{"role": "system", "content": prompt}] + self.messages
-  
 
-from dotenv import load_dotenv
-import streamlit as st
 
 client = OpenAI(api_key=st.secrets.OPENAI_API_KEY)
 
