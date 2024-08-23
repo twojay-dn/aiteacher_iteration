@@ -8,8 +8,8 @@
   "steps": [
     {
       "step": "학습 전체에서 위치하는 단계명  e.g. 도입, 전개, 마무리, etc.",
-      "contents": "학습 단계의 컨텐츠 소제목",
-      "description": "학습 단계의 구체적인 내용과 설명"
+      "content_title": "학습 단계의 컨텐츠 소제목",
+      "content_description": "학습 단계의 구체적인 내용과 설명"
     } // 단계는 하나 이상 올 수 있음.
   ],
   "evaluation_criteria": [
